@@ -149,11 +149,11 @@ def card(p,light=False,mobile=False):
     if mobile:
         tx=28
         text(d,(tx,22),p['n']+' / '+p['cat'],11,accent,mono=True)
-        text(d,(tx,61),p['title'],35,fg,True)
-        text(d,(tx,112),p['hook'],21,fg)
-        for i,t in enumerate(p['mobile']): text(d,(tx,157+i*29),t,22,sub)
+        text(d,(tx,61),p['title'],40,fg,True)
+        text(d,(tx,112),p['hook'],25,fg)
+        for i,t in enumerate(p['mobile']): text(d,(tx,157+i*33),t,28,sub)
         line(d,[(28,271),(572,271)],mute)
-        text(d,(tx,293),p['tags'],11,accent,mono=True)
+        text(d,(tx,293),p['tags'],13,accent,mono=True)
         text(d,(tx,322),'EXPLORE THE REPOSITORY',10,sub,mono=True)
         line(d,[(547,325),(565,307),(550,307),(565,307),(565,322)],accent,2)
     else:
