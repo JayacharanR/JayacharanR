@@ -93,6 +93,15 @@ I’m **Jayacharan**. I build across AI, retrieval, and cloud infrastructure, wi
   <a href="https://www.credly.com/badges/cabb3dd2-fe21-4440-ac8e-785dcd4c8be0/public_url"><img src="assets/cert-azure-data.svg" width="185" height="30" alt="Microsoft Certified: Azure Data Fundamentals"></a>
 </p>
 
+<p align="center">
+  <picture>
+    <source media="(prefers-reduced-motion: reduce)" srcset="https://jayacharanr.github.io/JayacharanR/contribution-playback-still.png">
+    <img src="https://jayacharanr.github.io/JayacharanR/contribution-playback.gif" width="100%" alt="Contribution activity for the last year. Weeks appear in order as a bright particle traces days with activity.">
+  </picture>
+  <br>
+  <sub>Public GitHub contribution calendar · refreshed daily</sub>
+</p>
+
 ---
 
 <sub>Be kind. Stay curious. Build something worth understanding.</sub>
