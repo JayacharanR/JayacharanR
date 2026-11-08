@@ -1,13 +1,18 @@
 <picture>
-  <source media="(prefers-reduced-motion: reduce) and (max-width: 600px)" srcset="assets/atomic-oscillator-mobile-still.png">
-  <source media="(prefers-reduced-motion: reduce)" srcset="assets/atomic-oscillator-desktop-still.png">
-  <source media="(max-width: 600px)" srcset="assets/atomic-oscillator-mobile.gif">
-  <img src="assets/atomic-oscillator-desktop.gif" width="100%" alt="Jayacharan R — Be kind. Stay curious. Retrieval, cloud, and world models. The JR atom sits above three animated signal traces.">
+  <source media="(prefers-reduced-motion: reduce) and (max-width: 600px)" srcset="assets/atomic-signal-overlay-mobile-still.png">
+  <source media="(prefers-reduced-motion: reduce)" srcset="assets/atomic-signal-overlay-desktop-still.png">
+  <source media="(max-width: 600px)" srcset="assets/atomic-signal-overlay-mobile.gif">
+  <img src="assets/atomic-signal-overlay-desktop.gif" width="100%" alt="Jayacharan R — Be kind. Stay curious. Retrieval, cloud, and world models. The JR atom sits above three animated traces on a shared baseline.">
 </picture>
 
 <br>
 
-I’m **Jayacharan**. I build across AI, retrieval, and cloud infrastructure, with a soft spot for systems that can explain a decision, recover from a mistake, and hold up under scrutiny.
+<picture>
+  <source media="(prefers-color-scheme: light) and (max-width: 600px)" srcset="assets/atomic-focus-mobile-light.png">
+  <source media="(max-width: 600px)" srcset="assets/atomic-focus-mobile.png">
+  <source media="(prefers-color-scheme: light)" srcset="assets/atomic-focus-light.png">
+  <img src="assets/atomic-focus.png" width="100%" alt="I build across AI, retrieval, and cloud infrastructure, with a soft spot for systems that can explain a decision, recover from a mistake, and hold up under scrutiny.">
+</picture>
 
 <p>
   <a href="https://www.linkedin.com/in/jayacharan-r/"><img src="assets/contact-linkedin.svg" width="100" height="30" alt="LinkedIn"></a>
@@ -69,12 +74,19 @@ I’m **Jayacharan**. I build across AI, retrieval, and cloud infrastructure, wi
 
 ### Experience
 
-- **GenAI Intern · Tata Consultancy Services** (Jun–Jul 2026) — Worked on RAG search, prompt-injection guardrails, and Langfuse tracing.
-- **SAP Analytics Cloud Intern · Blueprint Technologies** (May–Jul 2025) — Built SAP Analytics Cloud dashboards and predictive models.
+<picture>
+  <source media="(prefers-color-scheme: light) and (max-width: 600px)" srcset="assets/atomic-experience-mobile-light.png">
+  <source media="(max-width: 600px)" srcset="assets/atomic-experience-mobile.png">
+  <source media="(prefers-color-scheme: light)" srcset="assets/atomic-experience-light.png">
+  <img src="assets/atomic-experience.png" width="100%" alt="GenAI Intern · Tata Consultancy Services (Jun–Jul 2026) — Worked on RAG search, prompt-injection guardrails, and Langfuse tracing. SAP Analytics Cloud Intern · Blueprint Technologies (May–Jul 2025) — Built SAP Analytics Cloud dashboards and predictive models.">
+</picture>
 
-### What connects the work
-
-**Useful intelligence needs good systems around it.** That means fresh evidence for retrieval, explicit constraints for scheduling, reversible operations for personal data, and honest evaluation for learned policies.
+<picture>
+  <source media="(prefers-color-scheme: light) and (max-width: 600px)" srcset="assets/atomic-work-mobile-light.png">
+  <source media="(max-width: 600px)" srcset="assets/atomic-work-mobile.png">
+  <source media="(prefers-color-scheme: light)" srcset="assets/atomic-work-light.png">
+  <img src="assets/atomic-work.png" width="100%" alt="What connects the work. Useful intelligence needs good systems around it. That means fresh evidence for retrieval, explicit constraints for scheduling, reversible operations for personal data, and honest evaluation for learned policies.">
+</picture>
 
 <h3 align="center">✦ Tech stack ✦</h3>
 
@@ -104,4 +116,9 @@ I’m **Jayacharan**. I build across AI, retrieval, and cloud infrastructure, wi
 
 ---
 
-<sub>Be kind. Stay curious. Build something worth understanding.</sub>
+<picture>
+  <source media="(prefers-color-scheme: light) and (max-width: 600px)" srcset="assets/atomic-motto-mobile-light.png">
+  <source media="(max-width: 600px)" srcset="assets/atomic-motto-mobile.png">
+  <source media="(prefers-color-scheme: light)" srcset="assets/atomic-motto-light.png">
+  <img src="assets/atomic-motto.png" width="100%" alt="Be kind. Stay curious. Build something worth understanding.">
+</picture>

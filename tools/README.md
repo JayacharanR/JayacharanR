@@ -1,6 +1,6 @@
 # Profile artwork
 
-Atomic Signal uses repository-hosted PNG panels and two versions of a 24-second header loop. Three seeded signal channels produce bursts that vary in timing, amplitude, width, and frequency.
+Atomic Signal uses repository-hosted PNG panels and two versions of a 24-second header loop. Three seeded signal channels share a baseline and produce bursts that vary in timing, amplitude, width, and frequency.
 
 - Desktop and mobile compositions are separate so the text stays readable.
 - Light and dark project panels follow the browser color preference.
@@ -13,6 +13,8 @@ Atomic Signal uses repository-hosted PNG panels and two versions of a 24-second 
 Use Python 3.11+ and install `tools/requirements.txt` in a virtual environment. Run `python tools/build_assets.py` from the repository root.
 
 The generator uses Pillow and defaults to DejaVu Sans / DejaVu Sans Mono. Set `PROFILE_FONT` and `PROFILE_MONO_FONT` to local font-file paths to choose the typography. The published artwork uses Google Sans Flex and JetBrains Mono. Fonts are rendered into the assets and do not need to be installed by visitors.
+
+Run `python tools/build_profile_panels.py` to regenerate the focus, experience, engineering principles, and closing motto artwork with the same fonts.
 
 Run `python tools/build_stack.py` with Pillow and `rsvg-convert` installed to regenerate the tech grid, contact buttons, and certification badges. The [pinned icon sources](stack-icons/sources.tsv) come from [Skill Icons](https://github.com/tandpfun/skill-icons), [Simple Icons](https://github.com/simple-icons/simple-icons), and [Langfuse](https://github.com/langfuse/langfuse). Their notices are in `tools/stack-icons/`.
 

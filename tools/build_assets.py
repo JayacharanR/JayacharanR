@@ -91,15 +91,15 @@ def atom(draw,t,cx,cy,r):
 
 LOOP_SECONDS = 24
 FRAME_MS = 100
-TRACE_ROWS = (40, 69, 98)
 TRACE_COLORS = (YELLOW, CYAN, '#c2adff')
+TRACE_HEIGHTS = (32, 27, 23)
 SIGNAL_POINTS = 439
 
 
 def build_channels():
     rng = random.Random(94723)
     channels = []
-    for channel in range(len(TRACE_ROWS)):
+    for channel in range(len(TRACE_COLORS)):
         bursts = []
         start = rng.uniform(0, .6)
         while start < LOOP_SECONDS:
@@ -117,8 +117,8 @@ def build_channels():
 CHANNELS = build_channels()
 
 
-def wave(draw, elapsed, left, right, top):
-    for row, color, bursts in zip(TRACE_ROWS, TRACE_COLORS, CHANNELS):
+def wave(draw, elapsed, left, right, baseline):
+    for index, (color, height_limit, bursts) in enumerate(zip(TRACE_COLORS, TRACE_HEIGHTS, CHANNELS)):
         visible = []
         for start, duration, center, drift, width, height, freq, chirp, rate, phase in bursts:
             age = (elapsed - start) % LOOP_SECONDS
@@ -132,8 +132,8 @@ def wave(draw, elapsed, left, right, top):
         points = []
         for index in range(SIGNAL_POINTS):
             u = index / (SIGNAL_POINTS-1)
-            value = .8 * math.sin(math.tau*(3.1*u - elapsed/4 + row/30))
-            value += .4 * math.sin(math.tau*(9.6*u + elapsed/3))
+            value = 1.5 * math.sin(math.tau*((3.1+index*.4)*u - elapsed/4 + index/3))
+            value += .65 * math.sin(math.tau*((9.6+index)*u + elapsed/3 + index/3))
             for center, width, height, freq, chirp, phase in visible:
                 offset = (u-center)/width
                 if abs(offset) < 3.5:
@@ -142,9 +142,9 @@ def wave(draw, elapsed, left, right, top):
                     ripple = .17*math.sin(math.tau*(2.6*cycles + .18*offset))
                     value += height*(carrier+ripple)*math.exp(-.5*offset**2)
             edge = min(1, 30*u, 30*(1-u))
-            value = 18*math.tanh(value/18)*edge
-            points.append((left+(right-left)*u, top+row+value))
-        line(draw, points, color, 1.45)
+            value = height_limit*math.tanh(value/19)*edge
+            points.append((left+(right-left)*u, baseline+value))
+        line(draw, points, color, 2 if index==0 else 1.45)
 
 
 def hero(mobile=False):
@@ -169,11 +169,11 @@ def hero(mobile=False):
     for x in range(trace_left,trace_right+1,25):
         for y in range(top+22,top+111,18):
             circle(draw,x,y,.6,'#27372f')
-    for row in TRACE_ROWS:
-        line(draw,[(trace_left,top+row),(trace_right,top+row)],'#24322b')
+    baseline=top+69
+    line(draw,[(trace_left,baseline),(trace_right,baseline)],'#24322b')
     text(draw,(trace_left,top+10),'OSCILLATOR',12 if mobile else 8,MUTE,mono=True)
     frames=[]
-    name='atomic-oscillator-mobile' if mobile else 'atomic-oscillator-desktop'
+    name='atomic-signal-overlay-mobile' if mobile else 'atomic-signal-overlay-desktop'
     palette=None
     for n in range(LOOP_SECONDS*1000//FRAME_MS):
         elapsed=6+n*FRAME_MS/1000
@@ -181,7 +181,7 @@ def hero(mobile=False):
         frame=ImageDraw.Draw(image)
         center=(472,219,76) if mobile else (772,191,103)
         atom(frame,elapsed/6,*center)
-        wave(frame,elapsed,trace_left,trace_right,top)
+        wave(frame,elapsed,trace_left,trace_right,baseline)
         image=image.resize((w,h),Image.Resampling.LANCZOS).crop((16,16,w-16,h))
         if n==0:
             image.save(ASSETS/f'{name}-still.png',optimize=True)
