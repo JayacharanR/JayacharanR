@@ -2,7 +2,7 @@
   <source media="(prefers-reduced-motion: reduce) and (max-width: 600px)" srcset="assets/hero-mobile-still.png">
   <source media="(prefers-reduced-motion: reduce)" srcset="assets/hero-still.png">
   <source media="(max-width: 600px)" srcset="assets/hero-mobile.gif">
-  <img src="assets/hero.gif" width="100%" alt="Jayacharan R — Intelligence, with intent. AI systems. Real constraints. Retrieval, cloud, and world models.">
+  <img src="assets/hero.gif" width="100%" alt="Jayacharan R — Be kind. Stay curious. Retrieval, cloud, and world models.">
 </picture>
 
 <br>
@@ -18,7 +18,7 @@ I’m **Jayacharan**. I build across AI, retrieval, and cloud infrastructure, wi
     <source media="(prefers-color-scheme: light) and (max-width: 600px)" srcset="assets/clean-backup-mobile-light.png">
     <source media="(max-width: 600px)" srcset="assets/clean-backup-mobile.png">
     <source media="(prefers-color-scheme: light)" srcset="assets/clean-backup-light.png">
-    <img src="assets/clean-backup.png" width="100%" alt="01 / Clean-Backup — Rust-powered perceptual deduplication, on-device AI, and reversible photo-library organization. Rust, Python, ONNX, React. Explore the repository.">
+    <img src="assets/clean-backup.png" width="100%" alt="01 / Clean-Backup — Rust-powered perceptual deduplication, on-device AI, and reversible photo-library organization. Rust, Python, ONNX. Explore the repository.">
   </picture>
 </a>
 
@@ -27,7 +27,7 @@ I’m **Jayacharan**. I build across AI, retrieval, and cloud infrastructure, wi
     <source media="(prefers-color-scheme: light) and (max-width: 600px)" srcset="assets/wikimind-mobile-light.png">
     <source media="(max-width: 600px)" srcset="assets/wikimind-mobile.png">
     <source media="(prefers-color-scheme: light)" srcset="assets/wikimind-light.png">
-    <img src="assets/wikimind.png" width="100%" alt="02 / WikiMind — Wikipedia question answering with two-stage hybrid retrieval, live updates, reranking, and citation checks. FastAPI, Qdrant, Redis, LangGraph. Explore the repository.">
+    <img src="assets/wikimind.png" width="100%" alt="02 / WikiMind — Wikipedia question answering with two-stage hybrid retrieval, live updates, reranking, and citation checks. Qdrant, Redis, LangGraph. Explore the repository.">
   </picture>
 </a>
 
@@ -67,7 +67,7 @@ I’m **Jayacharan**. I build across AI, retrieval, and cloud infrastructure, wi
 
 **Useful intelligence needs good systems around it.** That means fresh evidence for retrieval, explicit constraints for scheduling, reversible operations for personal data, and honest evaluation for learned policies.
 
-`Python` &nbsp; `Rust` &nbsp; `PyTorch` &nbsp; `FastAPI` &nbsp; `React` &nbsp; `Docker` &nbsp; `Azure / Kubernetes`
+`Python` &nbsp; `Rust` &nbsp; `PyTorch` &nbsp; `Docker` &nbsp; `Azure / Kubernetes`
 
 ---
 

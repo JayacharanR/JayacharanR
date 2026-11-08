@@ -51,7 +51,7 @@ def orbit(d,cx,cy,r,t=0,scale=1):
         circle(d,px,py,8*scale,'#1b2a22')
         circle(d,px,py,3*scale,green)
     circle(d,cx,cy,21*scale,'#111a16','#384e3b')
-    text(d,(cx-10*scale,cy-12*scale),'jr',17*scale,green,True)
+    text(d,(cx-10*scale,cy-12*scale),'JR',17*scale,green,True)
     for dx,dy in [(-1,-1),(1,-1),(-1,1),(1,1)]:
         x=cx+dx*(r+17); y=cy+dy*(r+17)
         line(d,[(x,y+dy*7),(x,y),(x+dx*7,y)],'#435048',1)
@@ -66,9 +66,8 @@ def hero(mobile=False):
     text(d,(margin,27),'JAYACHARAN R',13,'#d5f773',True,True)
     text(d,(w-124,27),'[ BUILD / 01 ]',10,'#80908b',mono=True)
     title_y=83 if mobile else 89
-    for i,s in enumerate(['Intelligence,','with intent.']):
+    for i,s in enumerate(['Be kind.','Stay curious.']):
         text(d,(margin,title_y+i*(69 if mobile else 73)),s,61 if mobile else 67,'#f4f3ed',True)
-    text(d,(margin,256 if mobile else 270),'AI systems. Real constraints.',22,'#b0bab6')
     if mobile:
         text(d,(margin,468),'RETRIEVAL / CLOUD / WORLD MODELS',11,'#85928d',mono=True)
         center=(460,383); radius=64
@@ -97,11 +96,11 @@ PROJECTS=[
     dict(id='clean-backup',n='01',cat='LOCAL-FIRST MEDIA TOOLING',title='Clean-Backup',hook='A little order. A lot less clutter.',
          lines=['Rust-powered perceptual deduplication, on-device AI,','and a reversible workflow for your photo library.'],
          mobile=['Rust-powered perceptual deduplication,','on-device AI, and a reversible workflow','for your photo library.'],
-         tags='RUST  /  PYTHON  /  ONNX  /  REACT',color='#d5f773',kind='media'),
+         tags='RUST  /  PYTHON  /  ONNX',color='#d5f773',kind='media'),
     dict(id='wikimind',n='02',cat='RETRIEVAL & KNOWLEDGE SYSTEMS',title='WikiMind',hook='Answers with a paper trail.',
          lines=['Two-stage hybrid search over Wikipedia. Live updates,','reranking, and citation checks before an answer leaves.'],
          mobile=['Two-stage hybrid search over Wikipedia.','Live updates, reranking, and citation','checks before an answer leaves.'],
-         tags='FASTAPI  /  QDRANT  /  REDIS  /  LANGGRAPH',color='#8dd9ee',kind='rag'),
+         tags='QDRANT  /  REDIS  /  LANGGRAPH',color='#8dd9ee',kind='rag'),
     dict(id='carbon-aware',n='03',cat='CARBON-AWARE INFRASTRUCTURE',title='Carbon-Aware Cloud',hook='Better placement. Explicit constraints.',
          lines=['A multi-region AKS scheduler pairing an LLM proposer','with deterministic checks and an optimization fallback.'],
          mobile=['A multi-region AKS scheduler pairing','an LLM proposer with deterministic','checks and an optimization fallback.'],
