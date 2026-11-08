@@ -91,7 +91,7 @@ def atom(draw,t,cx,cy,r):
 
 LOOP_SECONDS = 24
 FRAME_MS = 100
-TRACE_COLORS = (YELLOW, '#f1c66a', '#c2adff')
+TRACE_COLORS = ('#f5e75d', '#f1c66a', '#fff0a6')
 TRACE_HEIGHTS = (32, 27, 23)
 SIGNAL_POINTS = 439
 
@@ -172,7 +172,7 @@ def hero(mobile=False):
     line(draw,[(trace_left,baseline),(trace_right,baseline)],'#24322b')
     text(draw,(trace_left,top+10),'OSCILLATOR',12 if mobile else 8,MUTE,mono=True)
     frames=[]
-    name='atomic-signal-gold-mobile' if mobile else 'atomic-signal-gold-desktop'
+    name='atomic-signal-yellow-mobile' if mobile else 'atomic-signal-yellow-desktop'
     palette=None
     for n in range(LOOP_SECONDS*1000//FRAME_MS):
         elapsed=6+n*FRAME_MS/1000
