@@ -20,7 +20,7 @@
   <a href="https://github.com/JayacharanR?tab=repositories"><img src="assets/contact-repositories.svg" width="142" height="30" alt="Explore my repositories"></a>
 </p>
 
-### Selected builds
+<h3 align="center">Selected builds</h3>
 
 <a href="https://github.com/JayacharanR/Clean-Backup">
   <picture>
@@ -58,10 +58,14 @@
   </picture>
 </a>
 
+<div align="center">
+
 <details>
 <summary><strong>A closer look at the engineering ↴</strong></summary>
 
 <br>
+
+<div align="left">
 
 | Project | The interesting part |
 | :--- | :--- |
@@ -70,9 +74,13 @@
 | [Carbon-Aware Cloud](https://github.com/JayacharanR/Carbon-Aware-Cloud-Optimization#executive-summary) | Compare proposed region/start choices against an exact feasible-candidate reference. Check inputs and constraints, then fall back or hold when needed. |
 | [Auto Thinker Engine](https://github.com/JayacharanR/Auto_Thinker_Engine#milestone-status-at-pause) | Compare visual representations and world-model approaches under explicit driving gates. Research is paused; final driving qualification remains open. |
 
+</div>
+
 </details>
 
-### Experience
+</div>
+
+<h3 align="center">Experience</h3>
 
 <picture>
   <source media="(prefers-color-scheme: light) and (max-width: 600px)" srcset="assets/atomic-experience-mobile-light.png">
