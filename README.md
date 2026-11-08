@@ -1,8 +1,8 @@
 <picture>
   <source media="(prefers-reduced-motion: reduce) and (max-width: 600px)" srcset="assets/atomic-header-mobile-still.png">
-  <source media="(prefers-reduced-motion: reduce)" srcset="assets/atomic-header-still.png">
+  <source media="(prefers-reduced-motion: reduce)" srcset="assets/atomic-header-desktop-still.png">
   <source media="(max-width: 600px)" srcset="assets/atomic-header-mobile.gif">
-  <img src="assets/atomic-header.gif" width="100%" alt="Jayacharan R — Be kind. Stay curious. Retrieval, cloud, and world models.">
+  <img src="assets/atomic-header-desktop.gif" width="100%" alt="Jayacharan R — Be kind. Stay curious. Retrieval, cloud, and world models.">
 </picture>
 
 <br>
@@ -11,9 +11,9 @@ I’m **Jayacharan**. I build across AI, retrieval, and cloud infrastructure, wi
 
 <p>
   <a href="https://www.linkedin.com/in/jayacharan-r/"><img src="assets/contact-linkedin.svg" width="100" height="30" alt="LinkedIn"></a>
+  <a href="mailto:charan12001200@gmail.com"><img src="assets/contact-email.svg" width="96" height="30" alt="Email"></a>
+  <a href="https://github.com/JayacharanR?tab=repositories"><img src="assets/contact-repositories.svg" width="142" height="30" alt="Explore my repositories"></a>
 </p>
-
-[Explore my repositories ↗](https://github.com/JayacharanR?tab=repositories)
 
 ### Selected builds
 
@@ -67,6 +67,11 @@ I’m **Jayacharan**. I build across AI, retrieval, and cloud infrastructure, wi
 
 </details>
 
+### Experience
+
+- **GenAI Intern · Tata Consultancy Services** (Jun–Jul 2026) — Worked on RAG search, prompt-injection guardrails, and Langfuse tracing.
+- **SAP Analytics Cloud Intern · Blueprint Technologies** (May–Jul 2025) — Built SAP Analytics Cloud dashboards and predictive models.
+
 ### What connects the work
 
 **Useful intelligence needs good systems around it.** That means fresh evidence for retrieval, explicit constraints for scheduling, reversible operations for personal data, and honest evaluation for learned policies.
@@ -76,8 +81,16 @@ I’m **Jayacharan**. I build across AI, retrieval, and cloud infrastructure, wi
 <p align="center">
   <picture>
     <source media="(max-width: 600px)" srcset="assets/tech-stack-mobile.png">
-    <img src="assets/tech-stack.png" width="612" alt="Python, Rust, TypeScript, PyTorch, ONNX, OpenCV, Next.js, Node.js, Tailwind CSS, Docker, Kubernetes, Azure, PostgreSQL, Redis, SQLite, Neo4j, Linux, Git, GitHub Actions, FFmpeg, LangChain, LangGraph, Hugging Face, Qdrant, Ollama, and CARLA">
+    <img src="assets/tech-stack.png" width="674" alt="Python, Rust, TypeScript, PyTorch, ONNX, OpenCV, Next.js, Node.js, Tailwind CSS, Langfuse, Docker, Kubernetes, AWS, Azure, PostgreSQL, Redis, SQLite, Neo4j, Linux, Git, GitHub Actions, FFmpeg, LangChain, LangGraph, Hugging Face, Qdrant, Ollama, and CARLA">
   </picture>
+</p>
+
+<h3 align="center">Certifications</h3>
+
+<p align="center">
+  <a href="https://www.credly.com/badges/8b2899fa-690d-43d3-9dfb-91a6b85e021f/public_url"><img src="assets/cert-aws-architect.svg" width="248" height="30" alt="AWS Certified Solutions Architect – Associate"></a>
+  <a href="https://learn.microsoft.com/api/credentials/share/en-us/JayacharanR-7249/B876E2612E8DCA57?sharingId=A6C2B44CC1F755E7"><img src="assets/cert-azure-ai.svg" width="204" height="30" alt="Microsoft Certified: Azure AI Engineer Associate"></a>
+  <a href="https://www.credly.com/badges/cabb3dd2-fe21-4440-ac8e-785dcd4c8be0/public_url"><img src="assets/cert-azure-data.svg" width="185" height="30" alt="Microsoft Certified: Azure Data Fundamentals"></a>
 </p>
 
 ---

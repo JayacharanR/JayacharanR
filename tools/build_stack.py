@@ -1,5 +1,6 @@
 """Build the repository-hosted stack grid and contact badges."""
 from io import BytesIO
+from math import ceil
 from pathlib import Path
 import re
 import subprocess
@@ -10,7 +11,7 @@ ICONS = TOOLS / 'stack-icons'
 ASSETS = TOOLS.parent / 'assets'
 STACK = (
     'python', 'rust', 'typescript', 'pytorch', 'onnx', 'opencv', 'nextdotjs',
-    'nodedotjs', 'tailwindcss', 'docker', 'kubernetes', 'azure', 'postgresql',
+    'nodedotjs', 'tailwindcss', 'langfuse', 'docker', 'kubernetes', 'aws', 'azure', 'postgresql',
     'redis', 'sqlite', 'neo4j', 'linux', 'git', 'githubactions', 'ffmpeg',
 )
 BADGES = (
@@ -61,36 +62,42 @@ def badges(image, row, y, font):
 
 
 def grid(columns, name, tiles):
-    rows = len(STACK) // columns
-    badge_rows = (BADGES,) if columns == 10 else (BADGES[:3], BADGES[3:])
+    rows = ceil(len(tiles) / columns)
+    badge_rows = (BADGES,) if columns == 11 else (BADGES[:3], BADGES[3:])
     width = (columns * TILE + (columns - 1) * GAP) * SCALE
     tiles_height = (rows * TILE + (rows - 1) * GAP) * SCALE
     image = Image.new('RGBA', (width, tiles_height + 24 + len(badge_rows) * 50))
     for index, tile in enumerate(tiles):
         row, column = divmod(index, columns)
-        image.alpha_composite(tile, (column * (TILE + GAP) * SCALE, row * (TILE + GAP) * SCALE))
+        row_count = min(columns, len(tiles) - row * columns)
+        inset = (columns - row_count) * (TILE + GAP) * SCALE // 2
+        image.alpha_composite(tile, (inset + column * (TILE + GAP) * SCALE, row * (TILE + GAP) * SCALE))
     font = ImageFont.load_default(size=22)
     for index, row in enumerate(badge_rows):
         badges(image, row, tiles_height + 22 + index * 50, font)
     image.save(ASSETS / name, optimize=True)
 
 
-def contact(name, label, width, color, icon=''):
+def badge(name, label, width, color, icon='', tracking=2):
     center = (width + (16 if icon else 0)) / 2
     icon_markup = f'  {icon}\n' if icon else ''
     svg = f'''<svg xmlns="http://www.w3.org/2000/svg" width="{width}" height="30" viewBox="0 0 {width} 30">
   <title>{label}</title>
   <path fill="{color}" d="M0 0h{width}v30H0z"/>
-{icon_markup}  <text x="{center}" y="19" text-anchor="middle" fill="#fff" font-family="Arial, sans-serif" font-size="11" font-weight="700" letter-spacing="2">{label}</text>
+{icon_markup}  <text x="{center}" y="19" text-anchor="middle" fill="#fff" font-family="Arial, sans-serif" font-size="11" font-weight="700" letter-spacing="{tracking}">{label}</text>
 </svg>
 '''
-    (ASSETS / f'contact-{name}.svg').write_text(svg)
+    (ASSETS / f'{name}.svg').write_text(svg)
 
 
 if __name__ == '__main__':
     tiles = [rasterize(slug, TILE * SCALE) for slug in STACK]
-    grid(10, 'tech-stack.png', tiles)
-    grid(5, 'tech-stack-mobile.png', tiles)
-    contact('linkedin', 'LINKEDIN', 100, '#0a66c2')
-    contact('email', 'EMAIL', 96, '#bd3d2a',
-            '<path d="M11 11h13v9H11z M11 11l6.5 5 6.5-5" fill="none" stroke="#fff" stroke-width="1.5" stroke-linejoin="round"/>')
+    grid(11, 'tech-stack.png', tiles)
+    grid(6, 'tech-stack-mobile.png', tiles)
+    badge('contact-linkedin', 'LINKEDIN', 100, '#0a66c2')
+    badge('contact-email', 'EMAIL', 96, '#bd3d2a',
+          '<path d="M11 11h13v9H11z M11 11l6.5 5 6.5-5" fill="none" stroke="#fff" stroke-width="1.5" stroke-linejoin="round"/>')
+    badge('contact-repositories', 'REPOSITORIES', 142, '#374a3c')
+    badge('cert-aws-architect', 'AWS SOLUTIONS ARCHITECT ASSOCIATE', 248, '#845016', tracking=.35)
+    badge('cert-azure-ai', 'AZURE AI ENGINEER ASSOCIATE', 204, '#185480', tracking=.35)
+    badge('cert-azure-data', 'AZURE DATA FUNDAMENTALS', 185, '#185480', tracking=.35)

@@ -140,8 +140,6 @@ def hero(mobile=False):
     panel(draw,20,20,w-40,bottom-20)
     hazard(draw,21,21,w-42,7)
     text(draw,(46,43),'JAYACHARAN R',15 if mobile else 13,YELLOW,True,True)
-    if not mobile:
-        text(draw,(634,44),'PERSONAL SYSTEMS / SELECTED WORK',10,MUTE,mono=True)
     line(draw,[(46,78),(right-26,78)],LINE)
     for i,label in enumerate(('Be kind.','Stay curious.')):
         text(draw,(46,100+i*(64 if mobile else 76)),label,53 if mobile else 67,WHITE,True)
@@ -157,7 +155,7 @@ def hero(mobile=False):
     line(draw,[(trace_left,baseline),(trace_right,baseline)],'#344137')
     text(draw,(trace_left,top+10),'OSCILLATOR',12 if mobile else 8,MUTE,mono=True)
     frames=[]
-    name='atomic-header-mobile' if mobile else 'atomic-header'
+    name='atomic-header-mobile' if mobile else 'atomic-header-desktop'
     for n in range(60):
         image=base.copy()
         frame=ImageDraw.Draw(image)
