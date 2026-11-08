@@ -92,8 +92,8 @@
 
 <p align="center">
   <picture>
-    <source media="(max-width: 600px)" srcset="assets/tech-stack-mobile.png">
-    <img src="assets/tech-stack.png" width="674" alt="Python, Rust, TypeScript, PyTorch, ONNX, OpenCV, Next.js, Node.js, Tailwind CSS, Langfuse, Docker, Kubernetes, AWS, Azure, PostgreSQL, Redis, SQLite, Neo4j, Linux, Git, GitHub Actions, FFmpeg, LangChain, LangGraph, Hugging Face, Qdrant, Ollama, and CARLA">
+    <source media="(max-width: 600px)" srcset="assets/tech-stack-compact.png">
+    <img src="assets/tech-stack-desktop.png" width="612" alt="Python, Rust, SQL, PyTorch, ONNX, OpenCV, Langfuse, SAP Analytics Cloud, Docker, Kubernetes, AWS, Azure, PostgreSQL, Redis, SQLite, Neo4j, Linux, Git, GitHub Actions, FFmpeg, LangChain, LangGraph, Hugging Face, Qdrant, Ollama, and CARLA">
   </picture>
 </p>
 

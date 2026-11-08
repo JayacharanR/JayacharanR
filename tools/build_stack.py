@@ -10,8 +10,8 @@ TOOLS = Path(__file__).resolve().parent
 ICONS = TOOLS / 'stack-icons'
 ASSETS = TOOLS.parent / 'assets'
 STACK = (
-    'python', 'rust', 'typescript', 'pytorch', 'onnx', 'opencv', 'nextdotjs',
-    'nodedotjs', 'tailwindcss', 'langfuse', 'docker', 'kubernetes', 'aws', 'azure', 'postgresql',
+    'python', 'rust', 'sql', 'pytorch', 'onnx', 'opencv', 'langfuse', 'sap',
+    'docker', 'kubernetes', 'aws', 'azure', 'postgresql',
     'redis', 'sqlite', 'neo4j', 'linux', 'git', 'githubactions', 'ffmpeg',
 )
 BADGES = (
@@ -63,7 +63,7 @@ def badges(image, row, y, font):
 
 def grid(columns, name, tiles):
     rows = ceil(len(tiles) / columns)
-    badge_rows = (BADGES,) if columns == 11 else (BADGES[:3], BADGES[3:])
+    badge_rows = (BADGES,) if columns == 10 else (BADGES[:3], BADGES[3:])
     width = (columns * TILE + (columns - 1) * GAP) * SCALE
     tiles_height = (rows * TILE + (rows - 1) * GAP) * SCALE
     image = Image.new('RGBA', (width, tiles_height + 24 + len(badge_rows) * 50))
@@ -92,8 +92,8 @@ def badge(name, label, width, color, icon='', tracking=2):
 
 if __name__ == '__main__':
     tiles = [rasterize(slug, TILE * SCALE) for slug in STACK]
-    grid(11, 'tech-stack.png', tiles)
-    grid(6, 'tech-stack-mobile.png', tiles)
+    grid(10, 'tech-stack-desktop.png', tiles)
+    grid(5, 'tech-stack-compact.png', tiles)
     badge('contact-linkedin', 'LINKEDIN', 100, '#0a66c2')
     badge('contact-email', 'EMAIL', 96, '#bd3d2a',
           '<path d="M11 11h13v9H11z M11 11l6.5 5 6.5-5" fill="none" stroke="#fff" stroke-width="1.5" stroke-linejoin="round"/>')
