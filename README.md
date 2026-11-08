@@ -9,7 +9,11 @@
 
 I’m **Jayacharan**. I build across AI, retrieval, and cloud infrastructure, with a soft spot for systems that can explain a decision, recover from a mistake, and hold up under scrutiny.
 
-[LinkedIn ↗](https://www.linkedin.com/in/jayacharan-r/) &nbsp;·&nbsp; [Explore my repositories ↗](https://github.com/JayacharanR?tab=repositories)
+<p>
+  <a href="https://www.linkedin.com/in/jayacharan-r/"><img src="assets/contact-linkedin.svg" width="100" height="30" alt="LinkedIn"></a>
+</p>
+
+[Explore my repositories ↗](https://github.com/JayacharanR?tab=repositories)
 
 ### Selected builds
 
@@ -67,7 +71,14 @@ I’m **Jayacharan**. I build across AI, retrieval, and cloud infrastructure, wi
 
 **Useful intelligence needs good systems around it.** That means fresh evidence for retrieval, explicit constraints for scheduling, reversible operations for personal data, and honest evaluation for learned policies.
 
-`Python` &nbsp; `Rust` &nbsp; `PyTorch` &nbsp; `Docker` &nbsp; `Azure / Kubernetes`
+<h3 align="center">✦ Tech stack ✦</h3>
+
+<p align="center">
+  <picture>
+    <source media="(max-width: 600px)" srcset="assets/tech-stack-mobile.png">
+    <img src="assets/tech-stack.png" width="612" alt="Python, Rust, TypeScript, PyTorch, ONNX, OpenCV, Next.js, Node.js, Tailwind CSS, Docker, Kubernetes, Azure, PostgreSQL, Redis, SQLite, Neo4j, Linux, Git, GitHub Actions, FFmpeg, LangChain, LangGraph, Hugging Face, Qdrant, Ollama, and CARLA">
+  </picture>
+</p>
 
 ---
 

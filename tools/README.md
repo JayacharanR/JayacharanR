@@ -14,4 +14,6 @@ Use Python 3.11+ and install `tools/requirements.txt` in a virtual environment. 
 
 The generator uses Pillow and defaults to DejaVu Sans / DejaVu Sans Mono. Set `PROFILE_FONT` and `PROFILE_MONO_FONT` to local font-file paths to choose the typography. The published artwork uses Google Sans Flex and JetBrains Mono. Fonts are rendered into the assets and do not need to be installed by visitors.
 
+Run `python tools/build_stack.py` with Pillow and `rsvg-convert` installed to regenerate the tech grid and contact badges. The [pinned icon sources](stack-icons/sources.tsv) come from [Skill Icons](https://github.com/tandpfun/skill-icons) and [Simple Icons](https://github.com/simple-icons/simple-icons). Their notices are in `tools/stack-icons/`.
+
 All project descriptions are based on the linked repositories. The motion is decorative, not a live activity feed or a recording of project behavior.
