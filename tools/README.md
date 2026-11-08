@@ -1,6 +1,6 @@
 # Profile artwork
 
-The profile uses repository-hosted PNG panels and two six-second looping GIFs. No external image service, scheduled workflow, tracking pixel, or API key is required.
+Atomic Signal uses repository-hosted PNG panels and two six-second GIFs that animate the JR atom and oscillator. No external image service, scheduled workflow, tracking pixel, or API key is required.
 
 - Desktop and mobile compositions are separate so the text stays readable.
 - Light and dark project panels follow the browser color preference.

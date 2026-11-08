@@ -1,7 +1,9 @@
 from pathlib import Path
+from functools import lru_cache
 from PIL import Image, ImageDraw, ImageFont
 import math
 import os
+import random
 
 ROOT = Path(__file__).resolve().parents[1]
 ASSETS = ROOT / 'assets'
@@ -10,6 +12,7 @@ SANS = os.environ.get('PROFILE_FONT', 'DejaVuSans.ttf')
 MONO = os.environ.get('PROFILE_MONO_FONT', 'DejaVuSansMono.ttf')
 S = 2
 
+@lru_cache(maxsize=64)
 def font(size, bold=False, mono=False):
     f = ImageFont.truetype(MONO if mono else SANS, round(size*S))
     if not mono:
@@ -35,63 +38,137 @@ def circle(d,x,y,r,fill,outline=None,width=1):
 def rr(d,box,fill,r=8,outline=None,width=1):
     d.rounded_rectangle(tuple(v*S for v in box),r*S,fill=fill,outline=outline,width=round(width*S))
 
-def orbit(d,cx,cy,r,t=0,scale=1):
-    green='#d5f773'
+BG='#090d0e'; PANEL='#111719'; WHITE='#f3f2e8'; MUTE='#99aaa5'
+LINE='#37463f'; YELLOW='#e7ff58'; GREEN='#cbed85'; CYAN='#8bded3'
+
+def rect(d,box,fill,outline=None,width=1):
+    d.rectangle(tuple(v*S for v in box),fill=fill,outline=outline,width=round(width*S))
+
+def panel(d,x,y,w,h,accent=LINE,fill=PANEL,shadow='#030606'):
+    # Chamfered corners and hard offset shadows keep the brutalist structure.
+    pts=[(x,y),(x+w-14,y),(x+w,y+14),(x+w,y+h),(x+14,y+h),(x,y+h-14),(x,y)]
+    line(d,[(px+5,py+5) for px,py in pts],shadow,4)
+    d.polygon([(px*S,py*S) for px,py in pts[:-1]],fill=fill)
+    line(d,pts,accent,1)
+    for px,py,dx,dy in [(x,y,1,1),(x+w,y+h,-1,-1)]:
+        line(d,[(px,py+dy*17),(px,py),(px+dx*24,py)],accent,2)
+
+def hazard(d,x,y,w,h):
+    rect(d,(x,y,x+w,y+h),YELLOW)
+    for xx in range(round(x)-15,round(x+w),17):
+        # Keep every stripe bounded by the panel.
+        pts=[(max(x,xx),y+h),(min(x+w,xx+h),y),(min(x+w,xx+h+7),y),(min(x+w,xx+7),y+h)]
+        if min(px for px,py in pts)>=x and max(px for px,py in pts)<=x+w:
+            d.polygon([(px*S,py*S) for px,py in pts],fill=BG)
+
+def atom(draw,t,cx,cy,r):
+    scale=r/103
+    for n in range(48):
+        a=n*math.pi/24
+        inner=(119 if n%4 else 115)*scale
+        line(draw,[(cx+inner*math.cos(a),cy+inner*math.sin(a)),(cx+123*scale*math.cos(a),cy+123*scale*math.sin(a))],LINE,1)
     for j in range(3):
         a=j*math.pi/3
-        pts=[]
-        for i in range(121):
-            v=2*math.pi*i/120
-            x=r*math.cos(v); y=r*.34*math.sin(v)
-            pts.append((cx+x*math.cos(a)-y*math.sin(a),cy+x*math.sin(a)+y*math.cos(a)))
-        line(d,pts,'#2c3936',1)
-        v=2*math.pi*t+j*2.09
-        x=r*math.cos(v); y=r*.34*math.sin(v)
-        px=cx+x*math.cos(a)-y*math.sin(a); py=cy+x*math.sin(a)+y*math.cos(a)
-        circle(d,px,py,8*scale,'#1b2a22')
-        circle(d,px,py,3*scale,green)
-    circle(d,cx,cy,21*scale,'#111a16','#384e3b')
-    text(d,(cx-10*scale,cy-12*scale),'JR',17*scale,green,True)
-    for dx,dy in [(-1,-1),(1,-1),(-1,1),(1,1)]:
-        x=cx+dx*(r+17); y=cy+dy*(r+17)
-        line(d,[(x,y+dy*7),(x,y),(x+dx*7,y)],'#435048',1)
+        def point(v):
+            x=r*math.cos(v);y=r*.33*math.sin(v)
+            return cx+x*math.cos(a)-y*math.sin(a),cy+x*math.sin(a)+y*math.cos(a)
+        pts=[point(k*math.pi/90) for k in range(181)]
+        line(draw,pts,'#657447',1)
+        v=2*math.pi*(t+j/3)
+        for k in range(20):
+            u=v-k*.025
+            x,y=point(u)
+            circle(draw,x,y,1.1,'#718439' if k<9 else '#3e4c2c')
+        x,y=point(v)
+        circle(draw,x,y,8*scale,'#26361b')
+        circle(draw,x,y,3.5*scale,YELLOW)
+    circle(draw,cx,cy,30*scale,'#172118',YELLOW,1)
+    # Optical centering includes the font's actual ink bounds.
+    size=22*scale
+    f=font(size,True);box=f.getbbox('JR')
+    tx=cx-(box[0]+box[2])/(2*S);ty=cy-(box[1]+box[3])/(2*S)
+    text(draw,(tx,ty),'JR',size,YELLOW,True)
+
+# Uneven wave packets mix broad humps with short, tight oscillations.
+rng=random.Random(94723)
+SIGNAL_KEYS=24
+SIGNAL_POINTS=437
+PULSE_COUNT=11
+signals=[]
+widths=(.008,.004,.012,.005,.007,.010,.0035,.009,.005,.011,.006)
+frequencies=(.24,.65,.17,.42,.31,.21,.70,.28,.52,.19,.40)
+strengths=(29,11,20,34,14,25,12,30,18,23,32)
+for key in range(SIGNAL_KEYS):
+    pulses=[]
+    for slot in range(PULSE_COUNT):
+        center=(slot+.5+rng.uniform(-.24,.24))/PULSE_COUNT
+        width=widths[slot]*rng.uniform(.8,1.2)
+        strength=rng.choice([-1,1])*strengths[slot]*rng.uniform(.58,1)
+        frequency=frequencies[slot]*rng.uniform(.85,1.15)
+        pulses.extend((center,width,strength,frequency))
+    signals.append(pulses)
+
+def interpolate(rows,t):
+    phase=(t%1)*SIGNAL_KEYS
+    k=int(phase); f=phase-k
+    f=f*f*(3-2*f)
+    return [a+(b-a)*f for a,b in zip(rows[k],rows[(k+1)%SIGNAL_KEYS])]
+
+def wave(draw,t,left,right,baseline):
+    params=interpolate(signals,t)
+    pulses=list(zip(params[::4],params[1::4],params[2::4],params[3::4]))
+    points=[]
+    for i in range(SIGNAL_POINTS):
+        u=i/(SIGNAL_POINTS-1)
+        value=0
+        for center,width,strength,frequency in pulses:
+            offset=(u-center)/width
+            if abs(offset)<4:
+                value+=strength*math.cos(math.tau*frequency*offset)*math.exp(-.5*offset**2)
+        points.append((left+(right-left)*u,baseline+value))
+    line(draw,points,YELLOW,2)
+
 
 def hero(mobile=False):
-    w,h=(600,520) if mobile else (960,390)
-    base=canvas(w,h,'#0c1013'); d=ImageDraw.Draw(base)
-    for x in range(24,w,24):
-        for y in range(20,h,24): circle(d,x,y,.65,'#242b2d')
-    rr(d,(0,0,w-1,h-1),None,14,'#2a3235')
-    margin=32 if mobile else 46
-    text(d,(margin,27),'JAYACHARAN R',13,'#d5f773',True,True)
-    text(d,(w-124,27),'[ BUILD / 01 ]',10,'#80908b',mono=True)
-    title_y=83 if mobile else 89
-    for i,s in enumerate(['Be kind.','Stay curious.']):
-        text(d,(margin,title_y+i*(69 if mobile else 73)),s,61 if mobile else 67,'#f4f3ed',True)
-    if mobile:
-        text(d,(margin,468),'RETRIEVAL / CLOUD / WORLD MODELS',11,'#85928d',mono=True)
-        center=(460,383); radius=64
-        text(d,(margin,363),'BUILD THOUGHTFULLY.',11,'#d5f773',mono=True)
-        text(d,(margin,389),'MEASURE HONESTLY.',11,'#d5f773',mono=True)
-    else:
-        line(d,[(46,330),(914,330)],'#293332')
-        text(d,(46,350),'RETRIEVAL / CLOUD / WORLD MODELS',11,'#85928d',mono=True)
-        text(d,(665,350),'BUILD. MEASURE. REFINE.',11,'#d5f773',mono=True)
-        center=(777,186); radius=107
+    # The desktop crop matches the approved prototype. Mobile gives the
+    # headline and atom more vertical space before the full-width trace.
+    w,h=(600,506) if mobile else (960,482)
+    base=canvas(w,h,BG)
+    draw=ImageDraw.Draw(base)
+    right=w-20
+    bottom=h-6
+    panel(draw,20,20,w-40,bottom-20)
+    hazard(draw,21,21,w-42,7)
+    text(draw,(46,43),'JAYACHARAN R',15 if mobile else 13,YELLOW,True,True)
+    if not mobile:
+        text(draw,(634,44),'PERSONAL SYSTEMS / SELECTED WORK',10,MUTE,mono=True)
+    line(draw,[(46,78),(right-26,78)],LINE)
+    for i,label in enumerate(('Be kind.','Stay curious.')):
+        text(draw,(46,100+i*(64 if mobile else 76)),label,53 if mobile else 67,WHITE,True)
+    text(draw,(49,311 if mobile else 291),'RETRIEVAL / CLOUD / WORLD MODELS',16 if mobile else 11,MUTE,mono=True)
+    top=350 if mobile else 326
+    baseline=top+69
+    trace_left,trace_right=69,right-42
+    rect(draw,(47,top,right-27,top+122),'#0a1010',LINE)
+    rect(draw,(47,top,53,top+122),YELLOW)
+    for x in range(trace_left,trace_right+1,25):
+        for y in range(top+22,top+111,18):
+            circle(draw,x,y,.6,'#27372f')
+    line(draw,[(trace_left,baseline),(trace_right,baseline)],'#344137')
+    text(draw,(trace_left,top+10),'OSCILLATOR',12 if mobile else 8,MUTE,mono=True)
     frames=[]
+    name='atomic-header-mobile' if mobile else 'atomic-header'
     for n in range(60):
-        im=base.copy(); draw=ImageDraw.Draw(im)
-        orbit(draw,*center,radius,n/60,.85 if mobile else 1)
-        # A quiet progress track makes the loop feel like a designed instrument.
-        x0,y0=margin,(442 if mobile else 313)
-        line(draw,[(x0,y0),(x0+92,y0)],'#344236',2)
-        x=x0+92*(.5-.5*math.cos(2*math.pi*n/60))
-        circle(draw,x,y0,2,'#d5f773')
-        frames.append(im.resize((w,h),Image.Resampling.LANCZOS).convert('P',palette=Image.Palette.ADAPTIVE,colors=96))
-    name='hero-mobile' if mobile else 'hero'
-    frames[0].convert('RGB').save(ASSETS/f'{name}-still.png',optimize=True)
+        image=base.copy()
+        frame=ImageDraw.Draw(image)
+        center=(472,219,76) if mobile else (772,191,103)
+        atom(frame,n/60,*center)
+        wave(frame,n/60,trace_left,trace_right,baseline)
+        image=image.resize((w,h),Image.Resampling.LANCZOS).crop((16,16,w-16,h))
+        if n==0:
+            image.save(ASSETS/f'{name}-still.png',optimize=True)
+        frames.append(image.convert('P',palette=Image.Palette.ADAPTIVE,colors=112))
     frames[0].save(ASSETS/f'{name}.gif',save_all=True,append_images=frames[1:],duration=100,loop=0,optimize=True,disposal=1)
-
 PROJECTS=[
     dict(id='clean-backup',n='01',cat='LOCAL-FIRST MEDIA TOOLING',title='Clean-Backup',hook='A little order. A lot less clutter.',
          lines=['Rust-powered perceptual deduplication, on-device AI,','and a reversible workflow for your photo library.'],
@@ -138,38 +215,44 @@ def glyph(d,kind,x,y,c,muted,bg):
             rr(d,(x+dx,y+dy,x+dx+25,y+dy+17),bg,3,c)
             circle(d,x+dx+12,y+dy+8,4,None,c)
 
-def card(p,light=False,mobile=False):
-    w,h=(600,355) if mobile else (960,227)
-    bg='#f6f7f4' if light else '#101518'; fg='#172022' if light else '#f1f2ed'
-    sub='#4c5b5b' if light else '#a8b4b1'; mute='#cad2ce' if light else '#33413e'
-    accent={'#d5f773':'#577522','#8dd9ee':'#24748b','#c6b1ff':'#7857b3','#ffbd91':'#a85629'}.get(p['color']) if light else p['color']
-    im=canvas(w,h,bg); d=ImageDraw.Draw(im)
-    rr(d,(.5,.5,w-1,h-1),None,12,mute)
-    if mobile:
-        tx=28
-        text(d,(tx,22),p['n']+' / '+p['cat'],11,accent,mono=True)
-        text(d,(tx,61),p['title'],40,fg,True)
-        text(d,(tx,112),p['hook'],25,fg)
-        for i,t in enumerate(p['mobile']): text(d,(tx,157+i*33),t,28,sub)
-        line(d,[(28,271),(572,271)],mute)
-        text(d,(tx,293),p['tags'],13,accent,mono=True)
-        text(d,(tx,322),'EXPLORE THE REPOSITORY',10,sub,mono=True)
-        line(d,[(547,325),(565,307),(550,307),(565,307),(565,322)],accent,2)
-    else:
-        text(d,(30,22),p['n'],11,sub,mono=True)
-        glyph(d,p['kind'],49,91,accent,mute,bg)
-        tx=188
-        text(d,(tx,22),p['cat'],11,accent,mono=True)
-        text(d,(tx,47),p['title'],32,fg,True)
-        text(d,(tx,95),p['hook'],20,fg)
-        for i,t in enumerate(p['lines']): text(d,(tx,130+i*24),t,17,sub)
-        text(d,(tx,194),p['tags'],10,accent,mono=True)
-        line(d,[(908,65),(930,43),(912,43),(930,43),(930,61)],accent,2)
-    suffix=('-mobile' if mobile else '')+('-light' if light else '')
-    im.save(ASSETS/f"{p['id']}{suffix}.png",optimize=True)
 
-hero(); hero(True)
-for p in PROJECTS:
-    for light in [False,True]:
-        for mobile in [False,True]: card(p,light,mobile)
-print('Generated',len(list(ASSETS.iterdir())),'assets')
+def card(project,light=False,mobile=False):
+    w,h=(568,290) if mobile else (928,184)
+    image=canvas(w,h,'#f4f6f1' if light else BG)
+    draw=ImageDraw.Draw(image)
+    surface,foreground,muted,border,shadow=(
+        ('#f7f8f4','#172022','#45534e','#b6c1b8','#d4dbd2')
+        if light else (PANEL,WHITE,MUTE,LINE,'#030606')
+    )
+    palette=('#577522','#24748b','#7857b3','#a85629') if light else (GREEN,CYAN,'#c6b1ff','#ffbd91')
+    accent=palette[int(project['n'])-1]
+    panel(draw,8,2,w-16,h-9,border,surface,shadow)
+    rect(draw,(9,3,14,h-8),accent)
+    rect(draw,(30,20,68,47),accent)
+    text(draw,(38,24),project['n'],14,WHITE if light else BG,True,True)
+    if mobile:
+        text(draw,(81,23),project['cat'],12,accent,mono=True)
+        text(draw,(30,61),project['title'],38,foreground,True)
+        for i,description in enumerate(project['mobile']):
+            text(draw,(30,122+i*32),description,25,muted)
+        text(draw,(30,237),project['tags'],13,accent,mono=True)
+    else:
+        glyph(draw,project['kind'],41,84,accent,border,surface)
+        text(draw,(174,17),project['cat'],10,accent,mono=True)
+        text(draw,(174,39),project['title'],31,foreground,True)
+        for i,description in enumerate(project['lines']):
+            text(draw,(175,89+i*23),description,17,muted)
+        text(draw,(175,147),project['tags'],10,accent,mono=True)
+    x,y=w-40,34 if not mobile else 69
+    line(draw,[(x-25,y+25),(x,y),(x-19,y),(x,y),(x,y+19)],accent,2)
+    suffix=('-mobile' if mobile else '')+('-light' if light else '')
+    image.save(ASSETS/f"atomic-{project['id']}{suffix}.png",optimize=True)
+
+
+if __name__=='__main__':
+    hero()
+    hero(mobile=True)
+    for project in PROJECTS:
+        for light in (False,True):
+            for mobile in (False,True):
+                card(project,light,mobile)
