@@ -91,7 +91,7 @@ def atom(draw,t,cx,cy,r):
 
 LOOP_SECONDS = 24
 FRAME_MS = 100
-TRACE_COLORS = (YELLOW, CYAN, '#c2adff')
+TRACE_COLORS = (YELLOW, '#f1c66a', '#c2adff')
 TRACE_HEIGHTS = (32, 27, 23)
 SIGNAL_POINTS = 439
 
@@ -148,8 +148,7 @@ def wave(draw, elapsed, left, right, baseline):
 
 
 def hero(mobile=False):
-    # The desktop crop matches the approved prototype. Mobile gives the
-    # headline and atom more vertical space before the full-width trace.
+    # Mobile gives the headline and atom more vertical space before the trace.
     w,h=(600,506) if mobile else (960,482)
     base=canvas(w,h,BG)
     draw=ImageDraw.Draw(base)
@@ -173,13 +172,13 @@ def hero(mobile=False):
     line(draw,[(trace_left,baseline),(trace_right,baseline)],'#24322b')
     text(draw,(trace_left,top+10),'OSCILLATOR',12 if mobile else 8,MUTE,mono=True)
     frames=[]
-    name='atomic-signal-overlay-mobile' if mobile else 'atomic-signal-overlay-desktop'
+    name='atomic-signal-gold-mobile' if mobile else 'atomic-signal-gold-desktop'
     palette=None
     for n in range(LOOP_SECONDS*1000//FRAME_MS):
         elapsed=6+n*FRAME_MS/1000
         image=base.copy()
         frame=ImageDraw.Draw(image)
-        center=(472,219,76) if mobile else (772,191,103)
+        center=(472,219,76) if mobile else (772,202,94)
         atom(frame,elapsed/6,*center)
         wave(frame,elapsed,trace_left,trace_right,baseline)
         image=image.resize((w,h),Image.Resampling.LANCZOS).crop((16,16,w-16,h))

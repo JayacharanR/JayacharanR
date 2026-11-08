@@ -1,8 +1,8 @@
 <picture>
-  <source media="(prefers-reduced-motion: reduce) and (max-width: 600px)" srcset="assets/atomic-signal-overlay-mobile-still.png">
-  <source media="(prefers-reduced-motion: reduce)" srcset="assets/atomic-signal-overlay-desktop-still.png">
-  <source media="(max-width: 600px)" srcset="assets/atomic-signal-overlay-mobile.gif">
-  <img src="assets/atomic-signal-overlay-desktop.gif" width="100%" alt="Jayacharan R — Be kind. Stay curious. Retrieval, cloud, and world models. The JR atom sits above three animated traces on a shared baseline.">
+  <source media="(prefers-reduced-motion: reduce) and (max-width: 600px)" srcset="assets/atomic-signal-gold-mobile-still.png">
+  <source media="(prefers-reduced-motion: reduce)" srcset="assets/atomic-signal-gold-desktop-still.png">
+  <source media="(max-width: 600px)" srcset="assets/atomic-signal-gold-mobile.gif">
+  <img src="assets/atomic-signal-gold-desktop.gif" width="100%" alt="Jayacharan R — Be kind. Stay curious. Retrieval, cloud, and world models. The JR atom sits above yellow, gold, and violet traces on a shared baseline.">
 </picture>
 
 <br>
