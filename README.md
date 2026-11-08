@@ -14,7 +14,7 @@
   <img src="assets/atomic-focus.png" width="100%" alt="I build across AI, retrieval, and cloud infrastructure, with a soft spot for systems that can explain a decision, recover from a mistake, and hold up under scrutiny.">
 </picture>
 
-<p>
+<p align="center">
   <a href="https://www.linkedin.com/in/jayacharan-r/"><img src="assets/contact-linkedin.svg" width="100" height="30" alt="LinkedIn"></a>
   <a href="mailto:charan12001200@gmail.com"><img src="assets/contact-email.svg" width="96" height="30" alt="Email"></a>
   <a href="https://github.com/JayacharanR?tab=repositories"><img src="assets/contact-repositories.svg" width="142" height="30" alt="Explore my repositories"></a>
