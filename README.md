@@ -117,8 +117,8 @@
 ---
 
 <picture>
-  <source media="(prefers-color-scheme: light) and (max-width: 600px)" srcset="assets/atomic-motto-mobile-light.png">
-  <source media="(max-width: 600px)" srcset="assets/atomic-motto-mobile.png">
-  <source media="(prefers-color-scheme: light)" srcset="assets/atomic-motto-light.png">
-  <img src="assets/atomic-motto.png" width="100%" alt="Be kind. Stay curious. Build something worth understanding.">
+  <source media="(prefers-color-scheme: light) and (max-width: 600px)" srcset="assets/atomic-closing-mobile-light.png">
+  <source media="(max-width: 600px)" srcset="assets/atomic-closing-mobile.png">
+  <source media="(prefers-color-scheme: light)" srcset="assets/atomic-closing-light.png">
+  <img src="assets/atomic-closing.png" width="100%" alt="Be kind. Stay curious.">
 </picture>

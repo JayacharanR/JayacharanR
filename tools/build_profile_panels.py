@@ -15,7 +15,7 @@ EXPERIENCE = (
 )
 WORK_LEAD = 'Useful intelligence needs good systems around it.'
 WORK_BODY = 'That means fresh evidence for retrieval, explicit constraints for scheduling, reversible operations for personal data, and honest evaluation for learned policies.'
-MOTTO = ('Be kind. Stay curious.', 'Build something worth understanding.')
+MOTTO = 'Be kind. Stay curious.'
 
 
 def width_of(value, size, bold=False, mono=False):
@@ -103,20 +103,18 @@ def experience(mobile, light, theme, accents):
 
 
 def motto(mobile, light, theme, accent):
-    bg, surface, ink, _, border, shadow = theme
+    bg, surface, _, _, border, shadow = theme
     width = 568 if mobile else 928
-    title_size, body_size = (42,36) if mobile else (36,31)
-    body_step = 44 if mobile else 38
-    lines = wrap(MOTTO[1],width-84,body_size,True)
-    height = 78+len(lines)*body_step+20
+    title_size = 42 if mobile else 36
+    height = 104 if mobile else 94
     image = canvas(width,height,bg)
     draw = ImageDraw.Draw(image)
     box(draw,width,0,height,surface,border,shadow,accent)
-    text(draw,((width-width_of(MOTTO[0],title_size,True))/2,20),MOTTO[0],title_size,accent,True)
-    for index, value in enumerate(lines):
-        x = (width-width_of(value,body_size,True))/2
-        text(draw,(x,78+index*body_step),value,body_size,ink,True)
-    save(image,'motto',light,mobile)
+    bounds = font(title_size,True).getbbox(MOTTO)
+    x = (width-width_of(MOTTO,title_size,True))/2
+    y = (height-5)/2-(bounds[1]+bounds[3])/(2*S)
+    text(draw,(x,y),MOTTO,title_size,accent,True)
+    save(image,'closing',light,mobile)
 
 
 if __name__ == '__main__':
