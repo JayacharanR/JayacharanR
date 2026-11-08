@@ -89,44 +89,62 @@ def atom(draw,t,cx,cy,r):
     tx=cx-(box[0]+box[2])/(2*S);ty=cy-(box[1]+box[3])/(2*S)
     text(draw,(tx,ty),'JR',size,YELLOW,True)
 
-# Uneven wave packets mix broad humps with short, tight oscillations.
-rng=random.Random(94723)
-SIGNAL_KEYS=24
-SIGNAL_POINTS=437
-PULSE_COUNT=11
-signals=[]
-widths=(.008,.004,.012,.005,.007,.010,.0035,.009,.005,.011,.006)
-frequencies=(.24,.65,.17,.42,.31,.21,.70,.28,.52,.19,.40)
-strengths=(29,11,20,34,14,25,12,30,18,23,32)
-for key in range(SIGNAL_KEYS):
-    pulses=[]
-    for slot in range(PULSE_COUNT):
-        center=(slot+.5+rng.uniform(-.24,.24))/PULSE_COUNT
-        width=widths[slot]*rng.uniform(.8,1.2)
-        strength=rng.choice([-1,1])*strengths[slot]*rng.uniform(.58,1)
-        frequency=frequencies[slot]*rng.uniform(.85,1.15)
-        pulses.extend((center,width,strength,frequency))
-    signals.append(pulses)
+LOOP_SECONDS = 24
+FRAME_MS = 100
+TRACE_ROWS = (40, 69, 98)
+TRACE_COLORS = (YELLOW, CYAN, '#c2adff')
+SIGNAL_POINTS = 439
 
-def interpolate(rows,t):
-    phase=(t%1)*SIGNAL_KEYS
-    k=int(phase); f=phase-k
-    f=f*f*(3-2*f)
-    return [a+(b-a)*f for a,b in zip(rows[k],rows[(k+1)%SIGNAL_KEYS])]
 
-def wave(draw,t,left,right,baseline):
-    params=interpolate(signals,t)
-    pulses=list(zip(params[::4],params[1::4],params[2::4],params[3::4]))
-    points=[]
-    for i in range(SIGNAL_POINTS):
-        u=i/(SIGNAL_POINTS-1)
-        value=0
-        for center,width,strength,frequency in pulses:
-            offset=(u-center)/width
-            if abs(offset)<4:
-                value+=strength*math.cos(math.tau*frequency*offset)*math.exp(-.5*offset**2)
-        points.append((left+(right-left)*u,baseline+value))
-    line(draw,points,YELLOW,2)
+def build_channels():
+    rng = random.Random(94723)
+    channels = []
+    for channel in range(len(TRACE_ROWS)):
+        bursts = []
+        start = rng.uniform(0, .6)
+        while start < LOOP_SECONDS:
+            bursts.append((
+                start, rng.uniform(.43, 2.3), rng.uniform(.09, .91),
+                rng.uniform(-.11, .11), rng.uniform(.005, .041),
+                rng.uniform(6, 24), rng.uniform(.19, .83) + channel*.10,
+                rng.uniform(-.19, .19), rng.uniform(.4, 2.1), rng.random(),
+            ))
+            start += rng.uniform(.65, 1.15) if rng.random() < .12 else rng.uniform(.13, .49)
+        channels.append(bursts)
+    return channels
+
+
+CHANNELS = build_channels()
+
+
+def wave(draw, elapsed, left, right, top):
+    for row, color, bursts in zip(TRACE_ROWS, TRACE_COLORS, CHANNELS):
+        visible = []
+        for start, duration, center, drift, width, height, freq, chirp, rate, phase in bursts:
+            age = (elapsed - start) % LOOP_SECONDS
+            if age >= duration:
+                continue
+            progress = age / duration
+            gain = min(1, progress/.15, (1-progress)/.36)
+            gain = gain*gain*(3-2*gain)
+            visible.append((center+drift*progress, width, height*gain, freq,
+                            chirp, phase+age*rate))
+        points = []
+        for index in range(SIGNAL_POINTS):
+            u = index / (SIGNAL_POINTS-1)
+            value = .8 * math.sin(math.tau*(3.1*u - elapsed/4 + row/30))
+            value += .4 * math.sin(math.tau*(9.6*u + elapsed/3))
+            for center, width, height, freq, chirp, phase in visible:
+                offset = (u-center)/width
+                if abs(offset) < 3.5:
+                    cycles = freq*offset + chirp*offset**2/2 + phase
+                    carrier = math.cos(math.tau*cycles)
+                    ripple = .17*math.sin(math.tau*(2.6*cycles + .18*offset))
+                    value += height*(carrier+ripple)*math.exp(-.5*offset**2)
+            edge = min(1, 30*u, 30*(1-u))
+            value = 18*math.tanh(value/18)*edge
+            points.append((left+(right-left)*u, top+row+value))
+        line(draw, points, color, 1.45)
 
 
 def hero(mobile=False):
@@ -145,28 +163,31 @@ def hero(mobile=False):
         text(draw,(46,100+i*(64 if mobile else 76)),label,53 if mobile else 67,WHITE,True)
     text(draw,(49,311 if mobile else 291),'RETRIEVAL / CLOUD / WORLD MODELS',16 if mobile else 11,MUTE,mono=True)
     top=350 if mobile else 326
-    baseline=top+69
     trace_left,trace_right=69,right-42
     rect(draw,(47,top,right-27,top+122),'#0a1010',LINE)
     rect(draw,(47,top,53,top+122),YELLOW)
     for x in range(trace_left,trace_right+1,25):
         for y in range(top+22,top+111,18):
             circle(draw,x,y,.6,'#27372f')
-    line(draw,[(trace_left,baseline),(trace_right,baseline)],'#344137')
+    for row in TRACE_ROWS:
+        line(draw,[(trace_left,top+row),(trace_right,top+row)],'#24322b')
     text(draw,(trace_left,top+10),'OSCILLATOR',12 if mobile else 8,MUTE,mono=True)
     frames=[]
-    name='atomic-header-mobile' if mobile else 'atomic-header-desktop'
-    for n in range(60):
+    name='atomic-oscillator-mobile' if mobile else 'atomic-oscillator-desktop'
+    palette=None
+    for n in range(LOOP_SECONDS*1000//FRAME_MS):
+        elapsed=6+n*FRAME_MS/1000
         image=base.copy()
         frame=ImageDraw.Draw(image)
         center=(472,219,76) if mobile else (772,191,103)
-        atom(frame,n/60,*center)
-        wave(frame,n/60,trace_left,trace_right,baseline)
+        atom(frame,elapsed/6,*center)
+        wave(frame,elapsed,trace_left,trace_right,top)
         image=image.resize((w,h),Image.Resampling.LANCZOS).crop((16,16,w-16,h))
         if n==0:
             image.save(ASSETS/f'{name}-still.png',optimize=True)
-        frames.append(image.convert('P',palette=Image.Palette.ADAPTIVE,colors=112))
-    frames[0].save(ASSETS/f'{name}.gif',save_all=True,append_images=frames[1:],duration=100,loop=0,optimize=True,disposal=1)
+            palette=image.quantize(colors=128)
+        frames.append(image.quantize(palette=palette,dither=Image.Dither.NONE))
+    frames[0].save(ASSETS/f'{name}.gif',save_all=True,append_images=frames[1:],duration=FRAME_MS,loop=0,optimize=True,disposal=1)
 PROJECTS=[
     dict(id='clean-backup',n='01',cat='LOCAL-FIRST MEDIA TOOLING',title='Clean-Backup',hook='A little order. A lot less clutter.',
          lines=['Rust-powered perceptual deduplication, on-device AI,','and a reversible workflow for your photo library.'],

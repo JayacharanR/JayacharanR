@@ -1,6 +1,6 @@
 # Profile artwork
 
-Atomic Signal uses repository-hosted PNG panels and two six-second GIFs that animate the JR atom and oscillator. No external image service, scheduled workflow, tracking pixel, or API key is required.
+Atomic Signal uses repository-hosted PNG panels and two versions of a 24-second header loop. Three seeded signal channels produce bursts that vary in timing, amplitude, width, and frequency.
 
 - Desktop and mobile compositions are separate so the text stays readable.
 - Light and dark project panels follow the browser color preference.

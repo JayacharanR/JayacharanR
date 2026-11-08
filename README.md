@@ -1,8 +1,8 @@
 <picture>
-  <source media="(prefers-reduced-motion: reduce) and (max-width: 600px)" srcset="assets/atomic-header-mobile-still.png">
-  <source media="(prefers-reduced-motion: reduce)" srcset="assets/atomic-header-desktop-still.png">
-  <source media="(max-width: 600px)" srcset="assets/atomic-header-mobile.gif">
-  <img src="assets/atomic-header-desktop.gif" width="100%" alt="Jayacharan R — Be kind. Stay curious. Retrieval, cloud, and world models.">
+  <source media="(prefers-reduced-motion: reduce) and (max-width: 600px)" srcset="assets/atomic-oscillator-mobile-still.png">
+  <source media="(prefers-reduced-motion: reduce)" srcset="assets/atomic-oscillator-desktop-still.png">
+  <source media="(max-width: 600px)" srcset="assets/atomic-oscillator-mobile.gif">
+  <img src="assets/atomic-oscillator-desktop.gif" width="100%" alt="Jayacharan R — Be kind. Stay curious. Retrieval, cloud, and world models. The JR atom sits above three animated signal traces.">
 </picture>
 
 <br>
